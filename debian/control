@@ -1,0 +1,26 @@
+Source: genwqe-user
+Section: admin
+Priority: optional
+Maintainer: Breno Leitao <breno.leitao@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), help2man (>= 1.44.1), zlib1g-dev (>= 1.2.7), libcxl1, libcxl-dev
+Standards-Version: 3.9.4
+Homepage: https://github.com/ibm-genwqe/genwqe-user
+
+Package: genwqe-tools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, zlib1g-dev (>= 1.2.7), genwqe-libz (= ${binary:Version})
+Description: Tools to configure and monitor IBM GenWQE and CAPI gzip
+ Suite of tools to install, configure and monitor the health of the IBM GenWQE PCI gzip 
+ and IBM CAPI gzip compression and decompression cards.
+
+Package: genwqe-libz
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, zlib1g-dev (>= 1.2.7), libcxl1
+Description: Libraries to use IBM GenWQE card and CAPI gzip
+ Userspace Libraries to access IBM GenWQE PCI gzip and IBM CAPI gzip cards.
+
+Package: genwqe-libz-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, zlib1g-dev (>= 1.2.7)
+Description: Development tools and libraries for IBM GenWQE PCI gzip and IBM CAPI.
+ Userspace tools and Libraries for development on the IBM GenWQE PCI gzip and IBM CAPI.

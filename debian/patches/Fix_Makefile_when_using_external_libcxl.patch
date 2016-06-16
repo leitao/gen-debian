@@ -1,0 +1,49 @@
+From b495e28af7b06777a4b22171ed9bd0c30b2b9b09 Mon Sep 17 00:00:00 2001
+From: Breno Leitao <breno.leitao@gmail.com>
+Date: Wed, 8 Jun 2016 15:22:09 -0400
+Subject: [PATCH] Fix Makefile when using external libcxl
+
+Currently, when not compiling using BUNDLE_LIBCXL option, it fails to build.
+
+On Ubuntu, where we have the libcxl library, we should use the BUNDLE_LIBCXL=0
+when compiling, so, this path should work properly.
+---
+ config.mk      | 3 ++-
+ tools/Makefile | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/config.mk b/config.mk
+index 3ef5763..6054256 100644
+--- a/config.mk
++++ b/config.mk
+@@ -134,11 +134,12 @@ CONFIG_LIBCXL_PATH ?= ../../pslse/libcxl
+ CFLAGS += -DCONFIG_BUILD_SIMCODE -I../ext/include
+ endif
+ 
++CFLAGS += -I../include
+ # Can be overwritten by makfile option
+ ifeq ($(BUNDLE_LIBCXL),1)
+ WITH_LIBCXL=1
+ CONFIG_LIBCXL_PATH ?= ../ext/libcxl
+-CFLAGS += -I../ext/include -I../include
++CFLAGS += -I../ext/include
+ endif
+ 
+ # Finally, set any path needed.
+diff --git a/tools/Makefile b/tools/Makefile
+index 69f2147..d774652 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -44,10 +44,10 @@ projs += genwqe_maint genwqe_loadtree
+ CAPI_INSTALL=capi_install
+ 
+ # If we are bundling, we need to link statically.  Otherwise, go dynamic.
+-ifdef BUNDLE_LIBCXL
++ifeq ($(BUNDLE_LIBCXL),1)
+ LDLIBS += $(libcxl_a)
+ else
+-LDLIBS = -lcxl
++LDLIBS += -lcxl
+ endif # !CONFIG_LIBCXL_PATH
+ 
+ endif # WITH_LIBCXL

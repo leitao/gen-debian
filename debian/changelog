@@ -1,0 +1,5 @@
+genwqe-user (4.0.17-1) xenial; urgency=medium
+
+  * Initial Release. (Closes #826774)
+
+ -- Breno Leitao <breno.leitao@gmail.com>  Tue, 19 Apr 2016 11:16:41 -0400

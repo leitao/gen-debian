@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+BUNDLE_CXL =0
+ARCH       =$(shell dpkg-architecture -qDEB_TARGET_GNU_TYPE)
+# Top directory of the source code
+SRCTOP    := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
+# Destination directory where files will be installed
+DESTDIR    = $(SRCTOP)/debian/tmp
+
+VERSION=4.0.17
+%:
+	dh $@ 
+
+override_dh_auto_clean:
+	$(MAKE) BUNDLE_LIBCXL=0 distclean
+
+override_dh_auto_build:
+	$(MAKE) tools lib VERSION=$(VERSION) BUNDLE_LIBCXL=0
+
+override_dh_auto_install:
+	dh_auto_install -- BUNDLE_LIBCXL=0 LIB_INSTALL_PATH=$(DESTDIR)/usr/lib/$(ARCH)/genwqe INCLUDE_INSTALL_PATH=$(DESTDIR)/usr/include/genwqe
